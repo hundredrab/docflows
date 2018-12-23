@@ -41,12 +41,13 @@ class Role(models.Model):
 
 class Member(models.Model):
     """Members of committees with associated roles."""
-    user = models.ForeignKey(User, related_name='membership')
-    role = models.ForeignKey(Role, related_name='member')
+    user = models.ForeignKey(User, related_name='membership', on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, related_name='member', on_delete=models.CASCADE)
     added_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user.username + ' ' + self.role.name
-    
+
     class Meta:
         unique_together = ('user', 'role')
+

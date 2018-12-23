@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Committee, Role
+from . import models
 
-admin.site.register(Committee)
-admin.site.register(Role)
+admin.site.register(models.User)
+admin.site.register(models.Committee)
+admin.site.register(models.Role)
+admin.site.register(models.Member)
