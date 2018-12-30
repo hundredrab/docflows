@@ -34,3 +34,4 @@ class Permission(models.Model):
         ContentType, on_delete=models.CASCADE, related_name='permits')
     object_id = models.PositiveIntegerField()
     holder = GenericForeignKey('content_type', 'object_id')
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
