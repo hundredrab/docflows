@@ -1,5 +1,6 @@
 from rest_framework.serializers import ModelSerializer, Serializer
-from .models import Approval, Process, Node
+
+from .models import Approval, Node, Process
 
 
 class NodeSerializer(ModelSerializer):

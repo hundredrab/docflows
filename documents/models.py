@@ -1,7 +1,9 @@
-from django.db import models
-from account import models as acc_m
-from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+from django.contrib.contenttypes.fields import (GenericForeignKey,
+                                                GenericRelation)
 from django.contrib.contenttypes.models import ContentType
+from django.db import models
+
+from account import models as acc_m
 
 
 class Document(models.Model):

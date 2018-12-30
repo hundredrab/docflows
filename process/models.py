@@ -1,4 +1,5 @@
 from django.db import models
+
 from documents.models import Document
 
 
