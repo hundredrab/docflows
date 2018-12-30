@@ -26,10 +26,11 @@ class Permission(models.Model):
     """
 
     PERMISSION_CHOICES = (('0', 'NONE'),
-                         ('1', 'READ'),
-                         ('2', 'WRITE'))
+                          ('1', 'READ'),
+                          ('2', 'WRITE'))
 
     name = models.CharField(max_length=10, choices=PERMISSION_CHOICES)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='permits')
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, related_name='permits')
     object_id = models.PositiveIntegerField()
     holder = GenericForeignKey('content_type', 'object_id')
