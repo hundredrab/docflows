@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from process import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/processes', views.ListProcesses.as_view())
 ]

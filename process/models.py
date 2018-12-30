@@ -34,9 +34,11 @@ class Node(models.Model):
     or one committee/user/role approval."""
 
     name = models.CharField(default='1', max_length=3)
-    document = models.ForeignKey(Document, related_name='document_to_upload', on_delete=models.CASCADE)
+    document = models.ForeignKey(Document, related_name='document_to_upload', on_delete=models.CASCADE,
+                                 blank=True, null=True)
     # TODO: Polymorphic relation for approval/document.
-    approval = models.ForeignKey(Approval, related_name='approvals_required', on_delete=models.CASCADE)
+    approval = models.ForeignKey(Approval, related_name='approvals_required', on_delete=models.CASCADE,
+                                 blank=True, null=True)
     process = models.ForeignKey(Process, related_name='node', on_delete=models.CASCADE)
 
     class Meta:
