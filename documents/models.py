@@ -15,6 +15,7 @@ class Document(models.Model):
     def __str__(self):
         return self.name + ' (' + self.description[:15] + '...)'
 
+
 class Permission(models.Model):
     """Permissions associated with documents.
 
@@ -30,4 +31,3 @@ class Permission(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='permits')
     object_id = models.PositiveIntegerField()
     holder = GenericForeignKey('content_type', 'object_id')
-
