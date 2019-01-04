@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from process import views
+from process import views as pviews
+from documents import views as dviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/processes', views.ListProcesses.as_view())
+    path('api/processes', pviews.ListProcesses.as_view()),
+    path('api/documents', dviews.ListDocuments.as_view()),
 ]
