@@ -18,7 +18,7 @@ class ListDocuments(ListCreateAPIView):
     serializer_class = DocumentSerializer
 
 
-class ViewableDocuments(ListCreateAPIView):
+class ViewableDocuments(ListAPIView):
     """View to list the documents view-able by the user."""
 
     user = (User.objects.get(username='user11'))
