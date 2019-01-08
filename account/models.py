@@ -13,6 +13,9 @@ class User(models.Model):
     email = models.EmailField(blank=True, null=True)
     last_accessed = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return self.username + '-' + self.email
+
 
 class Committee(models.Model):
     """Generic committee model.
