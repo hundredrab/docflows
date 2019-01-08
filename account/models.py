@@ -1,4 +1,7 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+
+from documents.models import Permission
 
 
 class User(models.Model):
@@ -12,9 +15,11 @@ class User(models.Model):
     last_name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     last_accessed = models.DateTimeField(blank=True, null=True)
+    permit_obj = GenericRelation(
+        Permission, object_id_field='object_id', related_query_name='permits')
 
     def __str__(self):
-        return self.username + '-' + self.email
+        return self.username + '-' + str(self.email)
 
 
 class Committee(models.Model):

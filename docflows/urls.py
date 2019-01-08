@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/processes', pviews.ListProcesses.as_view()),
     path('api/documents', dviews.ListDocuments.as_view()),
+    path('api/documents/permissions', dviews.ViewableDocuments),
 ]
