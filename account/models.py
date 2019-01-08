@@ -16,7 +16,7 @@ class User(models.Model):
     email = models.EmailField(blank=True, null=True)
     last_accessed = models.DateTimeField(blank=True, null=True)
     permit_obj = GenericRelation(
-        Permission, object_id_field='object_id', related_query_name='permits')
+        Permission, object_id_field='object_id', related_query_name='user_permits')
 
     def __str__(self):
         return self.username + '-' + str(self.email)
@@ -31,6 +31,8 @@ class Committee(models.Model):
     name = models.CharField(max_length=30, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
+    permit_obj = GenericRelation(
+        Permission, object_id_field='object_id', related_query_name='comm_permits')
 
     def __str__(self):
         return self.name + '—' + self.description[:20] + '...'
@@ -44,6 +46,8 @@ class Role(models.Model):
         Committee, related_name='com_roles', on_delete=models.CASCADE)
     description = models.TextField(
         default="Describe this role's functionality.")
+    permit_obj = GenericRelation(
+        Permission, object_id_field='object_id', related_query_name='role_permits')
 
     def __str__(self):
         return self.name + ' of ' + self.committee.name + ' (' + self.description[:20] + '...)'
