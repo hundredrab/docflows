@@ -8,7 +8,7 @@ from account import models as acc_m
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return 'user_{0}/%Y/%m/%d/{1}'.format(instance.user.id, filename)
+    return 'user_{0}/%Y/%m/%d/{1}'.format('hello', filename)
 
 
 class Document(models.Model):
@@ -30,11 +30,9 @@ class Permission(models.Model):
     or an User.
     """
 
-    PERMISSION_CHOICES = (('0', 'NONE'),
-                          ('1', 'READ'),
-                          ('2', 'WRITE'))
+    PERMISSION_CHOICES = ((0, 'VIEW'), (1, 'SHARE'))
 
-    name = models.CharField(max_length=10, choices=PERMISSION_CHOICES)
+    level = models.CharField(max_length=10, choices=PERMISSION_CHOICES)
     content_type = models.ForeignKey(
         ContentType, on_delete=models.CASCADE, related_name='permits')
     object_id = models.PositiveIntegerField()

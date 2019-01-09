@@ -1,10 +1,11 @@
-from django.test import TestCase
-from rest_framework.test import APIClient
-from rest_framework import status
 from django.core.files.uploadedfile import SimpleUploadedFile
-from .models import Document, Permission
-from account.models import User, Committee, Role, Member
+from django.test import TestCase
+from rest_framework import status
+from rest_framework.test import APIClient
 
+from account.models import Committee, Member, Role, User
+
+from .models import Document, Permission
 
 client = APIClient()
 
@@ -32,7 +33,7 @@ class Test_Docs(TestCase):
         m1 = Member.objects.create(user=u1, role=r1)
         # print([d1,d2,d3,u1,u2,c1,r1,m1])
 
-        p1 = Permission.objects.create(document=d1, holder=u1, name='1')
-        p2 = Permission.objects.create(document=d2, holder=r1, name='1')
-        p3 = Permission.objects.create(document=d2, holder=u2, name='2')
-        p4 = Permission.objects.create(document=d1, holder=c1, name='3')
+        p1 = Permission.objects.create(document=d1, holder=u1, name=0)
+        p2 = Permission.objects.create(document=d2, holder=r1, name=1)
+        p3 = Permission.objects.create(document=d2, holder=u2, name=1)
+        p4 = Permission.objects.create(document=d1, holder=c1, name=1)

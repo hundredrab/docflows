@@ -21,12 +21,21 @@ class ListDocuments(ListCreateAPIView):
 class ViewableDocuments(ListAPIView):
     """View to list the documents view-able by the user."""
 
-    user = (User.objects.get(username='user11'))
-    print(user)
-    query = Q(user_permits=user) | Q(
-        comm_permits__com_roles__member__user=user
-    ) | Q(
-        role_permits__member__user=user
-    )
-    queryset = Permission.objects.filter(query)
+    def get_queryset(self):
+        user = self.request.user.user_prof
+        print(user)
+        query = Q(user_permits=user) | Q(
+            comm_permits__com_roles__member__user=user
+        ) | Q(
+            role_permits__member__user=user
+        )
+        return Permission.objects.filter(query)
     serializer_class = PermissionSerializer
+
+
+@api_view
+def document_details(request, id):
+    """Details of the document w.r.t. user."""
+
+    if request.method == 'GET':
+        pass
