@@ -18,10 +18,12 @@ from django.urls import path
 
 from process import views as pviews
 from documents import views as dviews
+from account import views as aviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/processes', pviews.ListProcesses.as_view()),
     path('api/documents', dviews.ListDocuments.as_view()),
     path('api/documents/permissions', dviews.ViewableDocuments.as_view()),
+    path('api/committees', aviews.ListCreateCommittees.as_view()),
 ]
