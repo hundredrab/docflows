@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 # LDAP AUTHENTICATION SETTINGS
 AUTHENTICATION_BACKENDS = [
     'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 AUTH_LDAP_BIND_DN = 'cn=read-only-admin,dc=example,dc=com'
