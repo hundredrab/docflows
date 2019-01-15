@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User as AuthUser
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.db.models import Q
 
 from documents.models import Permission
 
@@ -34,11 +35,17 @@ class Committee(models.Model):
     name = models.CharField(max_length=30, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
+    owner = models.OneToOneField(User, on_delete=models.CASCADE)
     permit_obj = GenericRelation(
         Permission, object_id_field='object_id', related_query_name='comm_permits')
 
     def __str__(self):
         return self.name + '—' + self.description[:20] + '...'
+
+    @property
+    def get_role_users(self):
+        members = Member.objects.filter(role__committee=self)
+        return [{'username': member.user.username, 'role': member.role.name} for member in members]
 
 
 class Role(models.Model):
