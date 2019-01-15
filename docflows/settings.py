@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import ldap
+from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,6 +45,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
 ]
+
+# LDAP AUTHENTICATION SETTINGS
+AUTHENTICATION_BACKENDS = [
+    'django_auth_ldap.backend.LDAPBackend',
+]
+
+AUTH_LDAP_BIND_DN = 'cn=read-only-admin,dc=example,dc=com'
+AUTH_LDAP_BIND_PASSWORD = 'password'
+
+AUTH_LDAP_SERVER_URI = "ldap://ldap.forumsys.com"
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+        'dc=example,dc=com',
+        ldap.SCOPE_SUBTREE,
+        '(uid=%(user)s)',
+    )
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -126,4 +144,3 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
