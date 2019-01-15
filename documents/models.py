@@ -1,14 +1,18 @@
-from django.contrib.contenttypes.fields import (GenericForeignKey,
-                                                GenericRelation)
+from django.utils import timezone
+from distutils.core import extension_keywords
+
+from django.contrib.contenttypes.fields import GenericForeignKey, \
+    GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.crypto import get_random_string
 
 from account import models as acc_m
 
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return 'user_{0}/%Y/%m/%d/{1}'.format('hello', filename)
+    return '{0}/{1}/{2}'.format('documents', timezone.now().strftime("%Y/%m/%d"), get_random_string(30))
 
 
 class Document(models.Model):
@@ -16,6 +20,8 @@ class Document(models.Model):
 
     name = models.CharField(max_length=30)
     description = models.TextField(blank=True, null=True)
+    #keywords = 
+    #subject = 
     file = models.FileField(upload_to=user_directory_path)
     added_on = models.DateTimeField(auto_now_add=True)
 

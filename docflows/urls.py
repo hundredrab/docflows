@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 from process import views as pviews
 from documents import views as dviews
 from account import views as aviews
@@ -26,4 +29,4 @@ urlpatterns = [
     path('api/documents', dviews.ListDocuments.as_view()),
     path('api/documents/permissions', dviews.ViewableDocuments.as_view()),
     path('api/committees', aviews.ListCreateCommittees.as_view()),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from account.models import Committee, Member, Role, User
+from django.contrib.auth.models import User as AuthUser
 
 from .models import Document, Permission
 
@@ -25,8 +26,12 @@ class Test_Docs(TestCase):
         d3 = Document.objects.create(name="Test doc3",
                                      description="",
                                      file=doc_file)
-        u1 = User.objects.create(username='user11')
-        u2 = User.objects.create(username='user22')
+        ua1 = AuthUser.objects.create(
+            username='authuser1', PASSWORD='pass@123456789')
+        ua2 = AuthUser.objects.create(
+            username='authuser2', PASSWORD='pass@123456789')
+        u1 = User.objects.create(username='user11', user=ua1)
+        u2 = User.objects.create(username='user22', user=ua2)
         c1 = Committee.objects.create(name='comm1', description='Test Comm.')
         r1 = Role.objects.create(
             name='Member', committee=c1, description='New role.')
