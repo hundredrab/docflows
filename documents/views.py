@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from account.models import Committee, Member, Role, User
 
 from .models import Document, Permission
-from .serializers import DocumentSerializer, PermissionSerializer
+from .serializers import DocumentSerializer, PermissionSerializer, FullDocumentDetailsSerializer
 
 
 class ListDocuments(ListCreateAPIView):
@@ -23,7 +23,6 @@ class ViewableDocuments(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user.user_prof
-        print(user)
         query = Q(user_permits=user) | Q(
             comm_permits__com_roles__member__user=user
         ) | Q(

@@ -21,5 +21,5 @@ class PermissionSerializer(serializers.ModelSerializer):
 class FullDocumentDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
-        models = Document
+        model = Document
         fields = ('__all__')

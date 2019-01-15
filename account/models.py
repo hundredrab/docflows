@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as AuthUser
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 
@@ -12,7 +12,7 @@ class User(models.Model):
     """
 
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name='user_prof')
+        AuthUser, on_delete=models.CASCADE, related_name='user_prof')
     username = models.CharField(max_length=100, unique=True)
     first_name = models.CharField(max_length=30, blank=True, null=True)
     last_name = models.CharField(max_length=100, blank=True, null=True)
