@@ -1,3 +1,4 @@
+from astroid.protocols import objects
 from django.db.models import Q, aggregates
 from django.shortcuts import render
 from rest_framework.decorators import api_view
@@ -10,6 +11,7 @@ from account.models import Committee, Member, Role, User
 from .models import Document, Permission
 from .serializers import (DocumentSerializer, FullDocumentDetailsSerializer,
                           PermissionSerializer)
+from taggit.models import Tag
 
 
 class ListDocuments(ListCreateAPIView):
@@ -42,3 +44,16 @@ def document_details(request, id):
 
     if request.method == 'GET':
         pass
+
+class SearchDocuments(ListAPIView):
+
+    def get_queryset(request):
+        query = request.GET.get('q')
+
+        if query:
+            result = Document.objects.filter(Q(name__icontains=query) | 
+                                            Q(description__icontains=query) | 
+                                            Q(Tag__icontains=query)
+                                            )
+        return result
+    serializer_class = DocumentSerializer

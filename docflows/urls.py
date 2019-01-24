@@ -29,4 +29,5 @@ urlpatterns = [
     path('api/documents', dviews.ListDocuments.as_view()),
     path('api/documents/permissions', dviews.ViewableDocuments.as_view()),
     path('api/committees', aviews.ListCreateCommittees.as_view()),
+    path('api/search', dviews.SearchDocuments.as_view()),    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
