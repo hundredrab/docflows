@@ -1,7 +1,6 @@
 from astroid.protocols import objects
 from django.db.models import Q, aggregates
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, ListCreateAPIView
 from rest_framework.response import Response
