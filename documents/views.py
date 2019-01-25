@@ -1,6 +1,7 @@
 from astroid.protocols import objects
 from django.db.models import Q, aggregates
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, ListCreateAPIView
 from rest_framework.response import Response
@@ -46,14 +47,16 @@ def document_details(request, id):
         pass
 
 class SearchDocuments(ListAPIView):
+    serializer_class = DocumentSerializer
 
-    def get_queryset(request):
-        query = request.GET.get('q')
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Document.objects.all()
+        query = self.request.GET.get("q")
 
         if query:
-            result = Document.objects.filter(Q(name__icontains=query) | 
-                                            Q(description__icontains=query) | 
-                                            Q(Tag__icontains=query)
-                                            )
-        return result
-    serializer_class = DocumentSerializer
+            queryset_list = queryset_list.filter(
+                Q(name__icontains=query) | 
+                Q(description__icontains=query) | 
+                Q(tags__name__icontains=query)
+                ).distinct()
+        return queryset_list
