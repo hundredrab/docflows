@@ -14,7 +14,6 @@ from .serializers import (DocumentSerializer, FullDocumentDetailsSerializer,
                           PermissionSerializer)
 from taggit.models import Tag
 from django_filters.rest_framework import DjangoFilterBackend
-from itertools import chain
 
 
 class ListDocuments(ListCreateAPIView):
@@ -56,8 +55,9 @@ class SearchDocuments(ListAPIView):
     # MemberQueryset = Member.objects.all()
     # RoleQueryset = Role.objects.all()
     # queryset = DocumentQueryset.union(UserQueryset, CommitteeQueryset, MemberQueryset, RoleQueryset)
-    queryset = Document.objects.all() 
+    queryset = Document.objects.all()
     # queryset = sorted(chain(DocumentQueryset, UserQueryset, CommitteeQueryset, MemberQueryset, RoleQueryset))
-    filter_backends = (filters.SearchFilter,DjangoFilterBackend,)
-    search_fields = ('name', 'description', 'tags__name', 'added_on', )
-    filter_fields = ('name', 'description', 'tags__name', 'added_on', )
+    filter_backends = (filters.SearchFilter,DjangoFilterBackend,filters.OrderingFilter,)
+    search_fields = ('name', 'description', 'tags__name', 'added_on',)
+    filter_fields = ('name', 'description', 'tags__name', 'added_on',)
+    ordering_fields = ('added_on',)

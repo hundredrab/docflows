@@ -8,11 +8,16 @@ from django.db import models
 from django.utils.crypto import get_random_string
 from taggit.managers import TaggableManager
 from account import models as acc_m
-
+from django.contrib.auth.models import User as AuthUser
+import os
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/documents/YYYY/MM/DD/<random_strings>
-    return '{0}/{1}/{2}'.format('documents', timezone.now().strftime("%Y/%m/%d"), get_random_string(30))
+    # file will be uploaded to MEDIA_ROOT/documents/YYYY/MM/DD/<random_strings.{extension for identifying file to open}>
+    def extension(filename):
+        name, ext = os.path.splitext(filename)
+        return ext
+    ext = extension(filename)
+    return '{0}/{1}/{2}'.format('documents', timezone.now().strftime("%Y/%m/%d"), get_random_string(30)+ext)
 
 
 class Document(models.Model):
@@ -20,6 +25,7 @@ class Document(models.Model):
 
     name = models.CharField(max_length=30)
     description = models.TextField(blank=True, null=True)
+    # owner = models.ForeignKey(AuthUser, null=False, on_delete=models.CASCADE)
     tags = TaggableManager()
     file = models.FileField(upload_to=user_directory_path)
     added_on = models.DateTimeField(auto_now_add=True)
