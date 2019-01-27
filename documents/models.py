@@ -25,7 +25,7 @@ class Document(models.Model):
 
     name = models.CharField(max_length=30)
     description = models.TextField(blank=True, null=True)
-    # owner = models.ForeignKey(AuthUser, null=False, on_delete=models.CASCADE)
+    owner = models.ForeignKey(AuthUser, editable=False,null=True,blank=True, on_delete=models.CASCADE)
     tags = TaggableManager()
     file = models.FileField(upload_to=user_directory_path)
     added_on = models.DateTimeField(auto_now_add=True)
