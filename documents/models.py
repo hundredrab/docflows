@@ -43,7 +43,7 @@ class Permission(models.Model):
 
     PERMISSION_CHOICES = ((0, 'VIEW'), (1, 'SHARE'))
 
-    level = models.CharField(max_length=10, choices=PERMISSION_CHOICES)
+    level = models.PositiveIntegerField(choices=PERMISSION_CHOICES)
     content_type = models.ForeignKey(
         ContentType, on_delete=models.CASCADE, related_name='permits')
     object_id = models.PositiveIntegerField()
