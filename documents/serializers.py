@@ -8,7 +8,7 @@ class DocumentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Document
-        fields = '__all__'
+        exclude = ('file',)
 
 
 class PermissionSerializer(serializers.ModelSerializer):
