@@ -7,7 +7,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.crypto import get_random_string
 from taggit.managers import TaggableManager
-from account import models as acc_m
 from django.contrib.auth.models import User as AuthUser
 import os
 
@@ -25,7 +24,7 @@ class Document(models.Model):
 
     name = models.CharField(max_length=30)
     description = models.TextField(blank=True, null=True)
-    owner = models.ForeignKey(AuthUser, editable=False,null=True,blank=True, on_delete=models.CASCADE)
+    owner = models.ForeignKey('account.User', editable=False,null=True,blank=True, on_delete=models.CASCADE)
     tags = TaggableManager()
     file = models.FileField(upload_to=user_directory_path)
     added_on = models.DateTimeField(auto_now_add=True)
