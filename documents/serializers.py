@@ -15,7 +15,6 @@ class PermissionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Permission
-        # exclude = ('document',)
         fields = '__all__'
 
 
