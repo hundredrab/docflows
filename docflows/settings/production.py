@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import ldap
+from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'z@^62#=!0dcl*i=bp(6sk4f&voz%vx1o4996$)dobio9i()d!t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*','10.10.4.192','0.0.0.0']
 
@@ -31,9 +33,9 @@ ALLOWED_HOSTS = ['*','10.10.4.192','0.0.0.0']
 # Application definition
 
 INSTALLED_APPS = [
-    'account',
-    'documents',
-    'process',
+    'account.apps.AccountConfig',
+    'documents.apps.DocumentsConfig',
+    'process.apps.ProcessConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,7 +44,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'taggit',
 ]
+
+#LDAP AUTHENTICATION SETTINGS
+AUTHENTICATION_BACKENDS = [
+    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AUTH_LDAP_BIND_DN = 'cn=read-only-admin,dc=example,dc=com'
+AUTH_LDAP_BIND_PASSWORD = 'password'
+
+AUTH_LDAP_SERVER_URI = "ldap://ldap.forumsys.com"
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+        'dc=example,dc=com',
+        ldap.SCOPE_SUBTREE,
+        '(uid=%(user)s)',
+    )
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -130,5 +150,4 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
