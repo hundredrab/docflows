@@ -33,9 +33,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'account',
-    'documents',
-    'process',
+    'account.apps.AccountConfig',
+    'documents.apps.DocumentsConfig',
+    'process.apps.ProcessConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -148,4 +148,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
