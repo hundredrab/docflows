@@ -2,10 +2,10 @@ from astroid.protocols import objects
 from django.db.models import Q, aggregates
 from django.shortcuts import render
 from rest_framework.decorators import api_view
-from rest_framework.generics import ListAPIView, ListCreateAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import filters
+from rest_framework import filters, status
 
 from account.models import Committee, Member, Role, User
 
@@ -44,12 +44,20 @@ class ViewableDocuments(ListAPIView):
     serializer_class = PermissionSerializer
 
 
-@api_view
-def document_details(request, id):
-    """Details of the document w.r.t. user."""
+class DocumentDetails(RetrieveAPIView):
+    """Details of the doc w.r.t. user."""
 
-    if request.method == 'GET':
-        pass
+    lookup_url_kwarg = 'pk'
+
+    def get_queryset(self):
+        user = self.request.user.user_prof
+        query = (Q(permission__user_permits=user) | Q(
+            permission__comm_permits__com_roles__member__user=user) | Q(permission__role_permits__member__user=user))
+        perms = Document.objects.filter(query)
+
+        return perms
+
+    serializer_class = FullDocumentDetailsSerializer
 
 
 class SearchDocuments(ListAPIView):
