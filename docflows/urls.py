@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from process import views as pviews
 from documents import views as dviews
 from account import views as aviews
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,4 +32,6 @@ urlpatterns = [
     path('api/documents/details/<int:pk>', dviews.DocumentDetails.as_view()),
     path('api/committees', aviews.ListCreateCommittees.as_view()),
     path('api/search', dviews.SearchDocuments.as_view()),
+    path('api/auth-token', obtain_auth_token),
+    path('docs/', include('rest_framework_docs.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

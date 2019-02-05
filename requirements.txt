@@ -1,8 +1,9 @@
 astroid==2.1.0
 Django==2.1.4
 djangorestframework==3.9.0
-drfdocs==0.0.11
 pytz==2018.7
+git+https://github.com/jasperlittle/django-rest-framework-docs
+django-auth-ldap
 django-taggit==0.23.0
 django-filter==2.1.0
 django-auth-ldap

@@ -16,7 +16,7 @@ from taggit.models import Tag
 from django_filters.rest_framework import DjangoFilterBackend
 
 
-class ListDocuments(ListCreateAPIView):
+class ListDocuments(ListAPIView):
     """View to list all present documents and create new ones."""
 
     queryset = Document.objects.all()
@@ -26,7 +26,7 @@ class ListDocuments(ListCreateAPIView):
     serializer_class = DocumentSerializer
 
 
-class ViewableDocuments(ListAPIView):
+class ViewableDocuments(ListCreateAPIView):
     """View to list the documents view-able by the user."""
 
     def get_queryset(self):
