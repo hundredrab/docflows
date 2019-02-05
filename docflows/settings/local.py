@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework_docs',
     'taggit',
     'django_filters',
+    'corsheaders',
 ]
 
 TAGGIT_CASE_INSENSITIVE = True
@@ -77,6 +78,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'docflows.urls'

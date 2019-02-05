@@ -5,3 +5,4 @@ git+https://github.com/jasperlittle/django-rest-framework-docs
 django-auth-ldap
 django-taggit==0.23.0
 django-filter==2.1.0
+django-cors-headers
