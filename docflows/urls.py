@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from process import views as pviews
 from documents import views as dviews
 from account import views as aviews
-from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework_simplejwt import import views as jwt_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,5 +33,7 @@ urlpatterns = [
     path('api/committees', aviews.ListCreateCommittees.as_view()),
     path('api/search', dviews.SearchDocuments.as_view()),
     path('api/auth-token', obtain_auth_token),
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('docs/', include('rest_framework_docs.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
