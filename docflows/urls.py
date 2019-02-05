@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from process import views as pviews
 from documents import views as dviews
 from account import views as aviews
-from rest_framework_simplejwt import import views as jwt_views
+from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
