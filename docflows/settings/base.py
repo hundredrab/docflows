@@ -44,12 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'taggit',
 ]
 
-#LDAP AUTHENTICATION SETTINGS
+# LDAP AUTHENTICATION SETTINGS
 AUTHENTICATION_BACKENDS = [
-#    'django_auth_ldap.backend.LDAPBackend',
+    #    'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -63,6 +64,13 @@ AUTHENTICATION_BACKENDS = [
 #         '(uid=%(user)s)',
 #     )
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

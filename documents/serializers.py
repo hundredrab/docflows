@@ -4,7 +4,6 @@ from .models import Document, Permission
 
 
 class DocumentSerializer(serializers.ModelSerializer):
-    file = serializers.FileField(use_url=True)
 
     class Meta:
         model = Document
@@ -19,6 +18,7 @@ class PermissionSerializer(serializers.ModelSerializer):
 
 
 class FullDocumentDetailsSerializer(serializers.ModelSerializer):
+    file = serializers.FileField(use_url=True)
 
     class Meta:
         model = Document
