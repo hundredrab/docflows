@@ -1,0 +1,78 @@
+version: 2
+jobs:
+  build:
+    branch:
+      only:
+        - circleci
+        - master
+        - production
+        - new
+
+    working_directory: ~/docflows/
+    docker:
+      - image: circleci/python:3.6.4
+        enviroment:
+          PIPENV_VENV_IN_PROJECT: true
+
+    steps:
+      - checkout
+      # - run:
+      #   name: changing permissions to circleci
+      #   command: |
+      #   sudo chown -R circleci:circleci /usr/local/bin
+      #   sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name : Installing Dependencies
+          command : |
+            sudo apt-get install libsasl2-dev python-dev libldap2-dev libssl-dev
+            virtualenv .env
+            source .env/bin/activate
+            pip install -r requirements.txt
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+             - ".env"
+      # - run:
+      #     name: Updating and installing pipenv
+      #     command: |
+      #       sudo yum update
+      #       sudo pip install ansible
+      #       sudo pip install pipenv
+      #       pipenv install
+
+      - run:
+          name: Simulate Django Migrations and Unit Test
+          command: |
+            sudo apt-get install libsasl2-dev python-dev libldap2-dev libssl-dev
+            virtualenv .env
+            source .env/bin/activate 
+            python manage.py migrate
+            python manage.py test
+
+      - run:
+          name: Merge master branch to production
+          command: |
+            if ["$CIRCLE_BRANCH" == "master"];
+            then
+              git config user.email "bot@nibmg.ac.in" ;
+              git config user.name "nibmgbot" ;
+              git checkout production ;
+              git rebase master ;
+              git push origin production ;
+            fi
+      # - run:
+      #     name: Deploy to production if branch is production
+      #     command: |
+      #       if ["$CIRCLE_BRANCH" == "production"];
+      #       then
+      #       fi
+
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: tr1
+
