@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import Committee, Member, Role, User
 
@@ -33,3 +34,13 @@ class CommitteeSerializer(ModelSerializer):
     class Meta:
         model = Committee
         fields = '__all__'
+
+
+class AdditionalTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """Passes additional data, viz., username, along with the standard token."""
+    @classmethod
+    def get_token(cls, user):
+        token = super(AdditionalTokenObtainPairSerializer, cls).get_token(user)
+        token['username'] = user.username
+        return token
+

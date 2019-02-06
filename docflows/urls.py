@@ -30,11 +30,12 @@ urlpatterns = [
     path('api/processes', pviews.ListProcesses.as_view()),
     path('api/documents', dviews.ListDocuments.as_view()),
     path('api/documents/permissions', dviews.ViewableDocuments.as_view()),
+    path('api/documents/create', dviews.DocumentCreate.as_view()),
     path('api/documents/details/<int:pk>', dviews.DocumentDetails.as_view()),
     path('api/committees', aviews.ListCreateCommittees.as_view()),
     path('api/search', dviews.SearchDocuments.as_view()),
 #    path('api/auth-token', obtain_auth_token),
-    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/', aviews.AdditionalTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('docs/', include('rest_framework_docs.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
