@@ -27,6 +27,7 @@ jobs:
       - run:
           name : Installing Dependencies
           command : |
+            sudo apt-get install libsasl2-dev python-dev libldap2-dev libssl-dev
             virtualenv .env
             source .env/bin/activate
             pip install -r requirements.txt
@@ -45,6 +46,7 @@ jobs:
       - run:
           name: Simulate Django Migrations and Unit Test
           command: |
+            sudo apt-get install libsasl2-dev python-dev libldap2-dev libssl-dev
             virtualenv .env
             source .env/bin/activate 
             python manage.py migrate
