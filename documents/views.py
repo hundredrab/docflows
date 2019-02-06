@@ -6,6 +6,7 @@ from rest_framework import filters, status
 from rest_framework.decorators import api_view
 from rest_framework.generics import (CreateAPIView, ListAPIView,
                                      ListCreateAPIView, RetrieveAPIView)
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from taggit.models import Tag
@@ -56,8 +57,6 @@ class ListDocuments(ListAPIView):
 
     queryset = Document.objects.all()
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user.user_prof)
     serializer_class = DocumentSerializer
 
 
@@ -92,6 +91,8 @@ class ViewableDocuments(ListCreateAPIView):
         }
     ]
     """
+
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         # print(self.request.user)

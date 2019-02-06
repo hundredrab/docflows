@@ -56,6 +56,7 @@ TAGGIT_CASE_INSENSITIVE = True
 #LDAP AUTHENTICATION SETTINGS
 AUTHENTICATION_BACKENDS = [
 #    'django_auth_ldap.backend.LDAPBackend',
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
