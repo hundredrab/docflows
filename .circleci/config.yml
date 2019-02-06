@@ -27,6 +27,7 @@ jobs:
       - run:
           name : Installing Dependencies
           command : |
+            virtualenv .env
             source .env/bin/activate
             pip install -r requirements.txt
       - save_cache:
@@ -44,6 +45,7 @@ jobs:
       - run:
           name: Simulate Django Migrations and Unit Test
           command: |
+            virtualenv .env
             source .env/bin/activate 
             python manage.py migrate
             python manage.py test
