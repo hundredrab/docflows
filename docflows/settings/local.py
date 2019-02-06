@@ -27,7 +27,7 @@ SECRET_KEY = 'z@^62#=!0dcl*i=bp(6sk4f&voz%vx1o4996$)dobio9i()d!t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -82,6 +82,15 @@ MIDDLEWARE = [
 
     'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3030',
+)
+CORS_ORIGIN_REGEX_WHITELIST = (
+    'localhost:3030',
+)
 
 ROOT_URLCONF = 'docflows.urls'
 
