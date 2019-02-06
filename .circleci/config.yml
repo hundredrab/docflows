@@ -22,7 +22,7 @@ jobs:
       #   sudo chown -R circleci:circleci /usr/local/bin
       #   sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
 
-      - restore_cahce:
+      - restore_cache:
           key: deps1-{{ .Branch }}-{{ checksum "requirements/dev.txt" }}
       - run:
           name : Installing Dependencies
