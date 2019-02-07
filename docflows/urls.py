@@ -27,16 +27,16 @@ from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/processes', pviews.ListProcesses.as_view()),
-    path('api/documents', dviews.ListDocuments.as_view()),
-    path('api/documents/permissions', dviews.ViewableDocuments.as_view()),
-    path('api/documents/create', dviews.DocumentCreate.as_view()),
-    path('api/documents/details/<int:pk>', dviews.DocumentDetails.as_view()),
-    path('api/committees', aviews.ListCreateCommittees.as_view()),
-    path('api/search', dviews.SearchDocuments.as_view()),
-    path('api/profile/<str:pk>', aviews.ProfileDetailsView.as_view()),
-#    path('api/auth-token', obtain_auth_token),
-    path('api/token', aviews.AdditionalTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('processes', pviews.ListProcesses.as_view()),
+    path('documents', dviews.ListDocuments.as_view()),
+    path('documents/permissions', dviews.ViewableDocuments.as_view()),
+    path('documents/create', dviews.DocumentCreate.as_view()),
+    path('documents/details/<int:pk>', dviews.DocumentDetails.as_view()),
+    path('committees', aviews.ListCreateCommittees.as_view()),
+    path('search', dviews.SearchDocuments.as_view()),
+    path('profile/<str:pk>', aviews.ProfileDetailsView.as_view()),
+#    path('auth-token', obtain_auth_token),
+    path('token', aviews.AdditionalTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('docs/', include('rest_framework_docs.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
