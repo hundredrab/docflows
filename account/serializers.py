@@ -36,6 +36,13 @@ class CommitteeSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class UserDetailsSerializer(ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = '__all__'
+
+
 class AdditionalTokenObtainPairSerializer(TokenObtainPairSerializer):
     """Passes additional data, viz., username, along with the standard token."""
     @classmethod
