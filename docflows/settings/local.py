@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from datetime import timedelta
+
 # import ldap
 # from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
 
@@ -44,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',
+    #'rest_framework.authtoken',
     'rest_framework_docs',
     'taggit',
     'django_filters',
@@ -56,7 +58,7 @@ TAGGIT_CASE_INSENSITIVE = True
 #LDAP AUTHENTICATION SETTINGS
 AUTHENTICATION_BACKENDS = [
 #    'django_auth_ldap.backend.LDAPBackend',
-    'rest_framework_simplejwt.authentication.JWTAuthentication',
+#    'rest_framework_simplejwt.authentication.JWTAuthentication',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -69,6 +71,17 @@ AUTHENTICATION_BACKENDS = [
 #         ldap.SCOPE_SUBTREE,
 #         '(uid=%(user)s)',
 #     )
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=14)
+}
 
 
 MIDDLEWARE = [

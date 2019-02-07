@@ -95,7 +95,7 @@ class ViewableDocuments(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        # print(self.request.user)
+        print(self.request.user)
         # print(User)
         user, created = User.objects.get_or_create(user=self.request.user, defaults={
                                                    'username': self.request.user.username})
@@ -106,6 +106,7 @@ class ViewableDocuments(ListCreateAPIView):
             role_permits__member__user=user
         )
         return Permission.objects.filter(query)
+
     serializer_class = PermissionSerializer
 
 
