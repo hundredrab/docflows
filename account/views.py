@@ -78,7 +78,3 @@ class ProfileDetailsView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     #queryset = User.objects.filter(pk=pk)
     serializer_class = UserDetailsSerializer
-
-
-
-
