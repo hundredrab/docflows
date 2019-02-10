@@ -30,7 +30,7 @@ class Document(models.Model):
     added_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name + ' (' + self.description[:15] + '...)'
+        return self.name
 
 
 class Permission(models.Model):

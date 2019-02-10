@@ -152,10 +152,17 @@ class DocumentCreate(CreateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
-        obj = super(DocumentCreate, self).create(request, *args, **kwargs)
-        obj.owner = request.user.user_prof
-        return obj
-
+        print(request.data, args, kwargs)
+        obj = Document.objects.create(
+            name=request.data['name'],
+            file=request.data['file'],
+            owner=request.user.user_prof,
+            description=request.data['description'] if 'description' in request.data.keys() else ''
+        )
+        print(obj, obj.owner)
+        perm = Permission.objects.create(document=obj, level=1, holder=request.user.user_prof)
+        print(perm)
+        return Response(FullDocumentDetailsSerializer(obj).data)
 
 
 class SearchDocuments(ListAPIView):

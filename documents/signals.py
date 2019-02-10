@@ -5,8 +5,8 @@ from django.dispatch import receiver
 from .models import Document, Permission
 
 
-@receiver(post_save, sender=Document)
-def create_permission(sender, **kwargs):
-    if kwargs['created']:
-        per = Permission.objects.create(
-            document=kwargs['instance'], level=1, holder=kwargs['instance'].owner)
+#@receiver(post_save, sender=Document)
+# def create_permission(sender, **kwargs):
+    # if kwargs['created']:
+        # per = Permission.objects.get_or_create(
+#             document=kwargs['instance'], level=1, holder=kwargs['instance'].owner)
