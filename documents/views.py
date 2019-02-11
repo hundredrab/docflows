@@ -6,7 +6,7 @@ from rest_framework import filters, status
 from rest_framework.decorators import api_view
 from rest_framework.generics import (CreateAPIView, ListAPIView,
                                      ListCreateAPIView, RetrieveAPIView)
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from taggit.models import Tag
@@ -149,20 +149,6 @@ class DocumentCreate(CreateAPIView):
 """
 
     serializer_class = FullDocumentDetailsSerializer
-    permission_classes = (IsAuthenticated,)
-
-    def create(self, request, *args, **kwargs):
-        print(request.data, args, kwargs)
-        obj = Document.objects.create(
-            name=request.data['name'],
-            file=request.data['file'],
-            owner=request.user.user_prof,
-            description=request.data['description'] if 'description' in request.data.keys() else ''
-        )
-        print(obj, obj.owner)
-        perm = Permission.objects.create(document=obj, level=1, holder=request.user.user_prof)
-        print(perm)
-        return Response(FullDocumentDetailsSerializer(obj).data)
 
 
 class SearchDocuments(ListAPIView):
