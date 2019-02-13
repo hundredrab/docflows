@@ -1,8 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
-
-from rest_framework.permissions import IsAuthenticated
 
 from .models import Committee, Member, Role, User
 from .serializers import *
@@ -43,7 +42,7 @@ class ListCreateCommittees(ListCreateAPIView):
 
     """
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsAdminUser,)
     queryset = Committee.objects.all()
     serializer_class = CommitteeSerializer
 
@@ -70,11 +69,20 @@ class AdditionalTokenObtainPairView(TokenObtainPairView):
 class ProfileDetailsView(RetrieveUpdateAPIView):
     """View to get user details or update them."""
 
-    lookup_url_kwarg = 'pk'
-    #permission_classes = (IsAuthenticated,)
-    #def get_queryset(self):
-        #print("hellooo", self.request.user.user_prof)
-        #return [self.request.user.user_prof]
+    lookup_url_kwarg = 'username'
+    lookup_field = 'username'
+    permission_classes = (IsAuthenticated,)
     queryset = User.objects.all()
-    #queryset = User.objects.filter(pk=pk)
     serializer_class = UserDetailsSerializer
+
+
+class RolesView(ListCreateAPIView):
+    """View to list and create roles for a certain committee."""
+    # TODO: Add object level permission allowing write access to owners only.
+
+    def get_queryset(self):
+        return Role.objects.filter(committee__pk=self.kwargs['pk'])
+
+    permission_classes = (IsAdminUser,)
+    serializer_class = RoleSerializer
+    #permission_classes = (IsAuthenticated,)

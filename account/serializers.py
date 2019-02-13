@@ -28,6 +28,14 @@ class RoleSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class MinimalRoleSerializer(ModelSerializer):
+    """Role serializer for creating new roles within specific commmittees."""
+
+    class Meta:
+        model = Role
+        fields = ('name', 'description')
+
+
 class CommitteeSerializer(ModelSerializer):
     com_roles = serializers.ReadOnlyField(source='get_role_users')
 
@@ -50,4 +58,3 @@ class AdditionalTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super(AdditionalTokenObtainPairSerializer, cls).get_token(user)
         token['username'] = user.username
         return token
-
