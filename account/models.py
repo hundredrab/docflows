@@ -35,7 +35,7 @@ class Committee(models.Model):
     name = models.CharField(max_length=30, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
-    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     permit_obj = GenericRelation(
         Permission, object_id_field='object_id', related_query_name='comm_permits')
 
