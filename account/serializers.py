@@ -57,4 +57,5 @@ class AdditionalTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super(AdditionalTokenObtainPairSerializer, cls).get_token(user)
         token['username'] = user.username
+        token['profile-id'] = user.user_prof__id
         return token

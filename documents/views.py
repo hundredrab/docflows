@@ -150,6 +150,9 @@ class DocumentCreate(CreateAPIView):
 
     serializer_class = FullDocumentDetailsSerializer
 
+    def perform_create(self, serializer):
+        d = serializer.save(owner=self.request.user.user_prof)
+        Permission.objects.create(document=d, holder=self.request.user.user_prof, level=1)
 
 class SearchDocuments(ListAPIView):
     """ Document Search view with filter and ordering. Need to add other field like users, committees e.t.c in search result"""
