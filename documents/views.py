@@ -164,3 +164,4 @@ class SearchDocuments(ListAPIView):
     search_fields = ('name', 'description', 'tags__name', 'added_on', )
     filter_fields = ('name', 'description', 'tags__name', 'added_on', 'owner')
     ordering_fields = ('added_on',)
+

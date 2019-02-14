@@ -1,5 +1,9 @@
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -86,3 +90,25 @@ class RolesView(ListCreateAPIView):
     permission_classes = (IsAdminUser,)
     serializer_class = RoleSerializer
     #permission_classes = (IsAuthenticated,)
+
+
+@api_view(http_method_names=['POST'])
+def add_member(request, pk):
+    """
+    Add member to committee, by the owner.
+
+    POST:
+        {
+        "username": "xxxx",
+        "role": "yyyy"
+        }
+    """
+    u = request.data['username']
+    r = request.data['role']
+    comm = get_object_or_404(Committee, pk=pk)
+    if comm.owner == request.user.user_prof:
+        user = User.objects.get(username=u)
+        role, created = Role.objects.get_or_create(committee=comm, name=r, description=".")
+        m, created = Member.objects.get_or_create(role=role, user=user)
+        return Response(CommitteeSerializer(comm).data, status=status.HTTP_200_OK)
+    return Response("Committee can only be modified by the owner.", status=status.HTTP_403_FORBIDDEN)
