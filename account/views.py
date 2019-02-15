@@ -1,9 +1,10 @@
 from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import (ListCreateAPIView, RetrieveAPIView,
+                                     RetrieveUpdateAPIView)
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -46,9 +47,41 @@ class ListCreateCommittees(ListCreateAPIView):
 
     """
 
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAuthenticated,)
     queryset = Committee.objects.all()
     serializer_class = CommitteeSerializer
+
+
+class CommitteeDetails(RetrieveAPIView):
+    """Show details of a particular committee.
+
+    GET:
+            {
+                "id": 1,
+                "com_roles": [
+                    {
+                        "username": "dowoop",
+                        "role": "Member"
+                    },
+                    {
+                        "username": "dowoop",
+                        "role": "Member22"
+                    }
+                ],
+                "name": "New Comm",
+                "created": "2019-01-14T13:36:23.552173Z",
+                "description": "New Comm 1",
+                "owner": 1
+            }
+    """
+
+    queryset = Committee.objects.all()
+    serializer_class = CommitteeSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_url_kwarg = 'pk'
+
+
+
 
 
 class AdditionalTokenObtainPairView(TokenObtainPairView):
