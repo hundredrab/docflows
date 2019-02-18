@@ -36,6 +36,13 @@ class MinimalRoleSerializer(ModelSerializer):
         fields = ('name', 'description')
 
 
+class RoleCommSerializer(ModelSerializer):
+
+    class Meta:
+        model = Role
+        fields = ('name', 'committee', 'description')
+
+
 class CommitteeSerializer(ModelSerializer):
     com_roles = serializers.ReadOnlyField(source='get_role_users')
 

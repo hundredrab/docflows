@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.generics import (ListCreateAPIView, RetrieveAPIView,
-                                     RetrieveUpdateAPIView)
+                                     RetrieveUpdateAPIView, ListAPIView)
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -145,3 +145,19 @@ def add_member(request, pk):
         m, created = Member.objects.get_or_create(role=role, user=user)
         return Response(CommitteeSerializer(comm).data, status=status.HTTP_200_OK)
     return Response("Committee can only be modified by the owner.", status=status.HTTP_403_FORBIDDEN)
+
+
+class UserListView(ListAPIView):
+    """
+    Gets a list of all usernames available.
+    """
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class RoleListView(ListAPIView):
+    """Gets a list of all the roles and committees."""
+
+    queryset = Role.objects.all()
+    serializer_class = RoleCommSerializer

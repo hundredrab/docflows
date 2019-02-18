@@ -36,6 +36,8 @@ urlpatterns = [
     path('committees/<int:pk>/add', aviews.add_member),
     path('committees/<int:pk>', aviews.RolesView.as_view()),
     path('committees/<int:pk>/details', aviews.CommitteeDetails.as_view()),
+    path('users/all', aviews.UserListView.as_view()),
+    path('roles/all', aviews.RoleListView.as_view()),
     path('search', dviews.SearchDocuments.as_view()),
     path('profile/<str:username>', aviews.ProfileDetailsView.as_view()),
 #    path('auth-token', obtain_auth_token),
