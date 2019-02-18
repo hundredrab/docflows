@@ -1,6 +1,6 @@
 from astroid.protocols import objects
 from django.db.models import Q, aggregates
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status
 from rest_framework.decorators import api_view
@@ -15,7 +15,7 @@ from account.models import Committee, Member, Role, User
 
 from .models import Document, Permission
 from .serializers import (DocumentSerializer, FullDocumentDetailsSerializer,
-                          PermissionSerializer)
+                          PermissionSerializer, PermissionSerializerBasic)
 
 
 class ListDocuments(ListAPIView):
@@ -107,7 +107,40 @@ class ViewableDocuments(ListCreateAPIView):
         )
         return Permission.objects.filter(query)
 
-    serializer_class = PermissionSerializer
+    def perform_create(self, serializer):
+        typ = self.request.data['type'].strip()
+        print(self.request.data)
+        pk = int(self.request.data['id'])
+        document = int(self.request.data['document'])
+        document = Document.objects.get(pk=document)
+        level = self.request.data['level']
+
+        u = self.request.user.user_prof
+        if not document.shareable_by(u):
+            print("Thou shalt not share.")
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        elif typ == 'role':
+            obj = get_object_or_404(Role, pk=pk)
+            p = Permission.objects.create(document=document, holder=obj, level=level)
+            return Response(PermissionSerializer(p).data)
+        elif typ == 'committee':
+            obj = get_object_or_404(Committee, pk=pk)
+            p = Permission.objects.create(document=document, holder=obj, level=level)
+            return Response(PermissionSerializer(p).data)
+        elif typ == 'user':
+            obj = get_object_or_404(User, pk=pk)
+            p = Permission.objects.create(document=document, holder=obj, level=level)
+            return Response(PermissionSerializer(p).data)
+        else:
+            print("wrong type.")
+            print(typ)
+            print(typ == 'role')
+            return Response("No such type found.", status=status.HTTP_404_NOT_FOUND)
+
+
+
+    serializer_class = PermissionSerializerBasic
 
 
 class DocumentDetails(RetrieveAPIView):

@@ -25,3 +25,9 @@ class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Permission
         fields = ('document', 'id', 'level')
+
+class PermissionSerializerBasic(serializers.ModelSerializer):
+
+    class Meta:
+        model = Permission
+        fields = ('document', 'id', 'level')
