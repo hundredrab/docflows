@@ -28,7 +28,7 @@ from rest_framework_simplejwt import views as jwt_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('processes', pviews.ListProcesses.as_view()),
-    path('documents', dviews.ListDocuments.as_view()),
+    path('documents', dviews.ListDocuments),
     path('documents/permissions', dviews.ViewableDocuments.as_view()),
     path('documents/create', dviews.DocumentCreate.as_view()),
     path('documents/details/<int:pk>', dviews.DocumentDetails.as_view()),
