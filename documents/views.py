@@ -242,7 +242,7 @@ def document_details(request, pk):
             "viewable": doc.viewable_by(user),
             "shareable": doc.shareable_by(user),
             "owner": doc.owner.user.username,
-            "file": doc.file.url
+            "file": request.META['HTTP_HOST']+doc.file.url
             }
         return JsonResponse(l, status=200, safe=False)
     else:
