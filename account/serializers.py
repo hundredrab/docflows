@@ -9,7 +9,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username',)
+        fields = ('username', 'id')
 
 
 class MemberSerializer(ModelSerializer):
@@ -40,7 +40,7 @@ class RoleCommSerializer(ModelSerializer):
 
     class Meta:
         model = Role
-        fields = ('name', 'committee', 'description')
+        fields = ('id', 'name', 'committee', 'description')
 
 
 class CommitteeSerializer(ModelSerializer):

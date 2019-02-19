@@ -45,7 +45,11 @@ class Committee(models.Model):
     @property
     def get_role_users(self):
         members = Member.objects.filter(role__committee=self)
-        return [{'username': member.user.username, 'role': member.role.name, 'role-id': member.role.id} for member in members]
+        return [{
+            'username': member.user.username,
+            'role': member.role.name,
+            'role_id': member.role.id
+            } for member in members]
 
 
 class Role(models.Model):
