@@ -110,7 +110,8 @@ def ListDocuments(request):
             "added_on": doc.added_on,
             "owner": doc.owner.id if doc.owner else doc.owner,
             "description": doc.description,
-            "viewable": doc.viewable_by(user)
+            "viewable": doc.viewable_by(user),
+            "shareable": doc.shareable_by(user)
         })
     return JsonResponse(l, status=200, safe=False)
 
@@ -199,31 +200,51 @@ class ViewableDocuments(ListCreateAPIView):
     serializer_class = PermissionSerializerBasic
 
 
-class DocumentDetails(RetrieveAPIView):
-    """Details of the doc if user has sufficient perms.
+# class DocumentDetails(RetrieveAPIView):
+    # """Details of the doc if user has sufficient perms.
 
-    GET:
-        {
-            "id": 4,
-            "file": "http://127.0.0.1:8000/media/documents/2019/01/29/dvQce79wim7zY7YcRRPrVLr557Ug43.pdf",
-            "name": "llllll",
-            "description": "66666666666666",
-            "added_on": "2019-01-29T09:08:27.920592Z",
-            "owner": 1
-        }
-"""
+    # GET:
+        # {
+            # "id": 4,
+            # "file": "http://127.0.0.1:8000/media/documents/2019/01/29/dvQce79wim7zY7YcRRPrVLr557Ug43.pdf",
+            # "name": "llllll",
+            # "description": "66666666666666",
+            # "added_on": "2019-01-29T09:08:27.920592Z",
+            # "owner": 1
+        # }
+# """
 
-    lookup_url_kwarg = 'pk'
+    # lookup_url_kwarg = 'pk'
 
-    def get_queryset(self):
-        user = self.request.user.user_prof
-        query = (Q(permission__user_permits=user) | Q(
-            permission__comm_permits__com_roles__member__user=user) | Q(permission__role_permits__member__user=user))
-        perms = Document.objects.filter(query)
+    # def get_queryset(self):
+        # user = self.request.user.user_prof
+        # query = (Q(permission__user_permits=user) | Q(
+            # permission__comm_permits__com_roles__member__user=user) | Q(permission__role_permits__member__user=user))
+        # perms = Document.objects.filter(query)
 
-        return perms
+        # return perms
 
-    serializer_class = FullDocumentDetailsSerializer
+    # serializer_class = FullDocumentDetailsSerializer
+
+@api_view(['GET'])
+def document_details(request, pk):
+    """Details of the doc if the user has sufficient perms."""
+
+    user = request.user.user_prof
+    doc = get_object_or_404(Document, pk=pk)
+    if doc.viewable_by(user):
+        l = {
+            "id": doc.id,
+            "name": doc.name,
+            "added_on": doc.added_on,
+            "owner": doc.owner.id if doc.owner else doc.owner,
+            "description": doc.description,
+            "viewable": doc.viewable_by(user),
+            "shareable": doc.shareable_by(user)
+            }
+        return JsonResponse(l, status=200, safe=False)
+    else:
+        return Response(status=403)
 
 
 class DocumentCreate(CreateAPIView):

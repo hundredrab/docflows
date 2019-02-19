@@ -31,7 +31,7 @@ urlpatterns = [
     path('documents', dviews.ListDocuments),
     path('documents/permissions', dviews.ViewableDocuments.as_view()),
     path('documents/create', dviews.DocumentCreate.as_view()),
-    path('documents/details/<int:pk>', dviews.DocumentDetails.as_view()),
+    path('documents/details/<int:pk>', dviews.document_details),
     path('committees', aviews.ListCreateCommittees.as_view()),
     path('committees/<int:pk>/add', aviews.add_member),
     path('committees/<int:pk>', aviews.RolesView.as_view()),

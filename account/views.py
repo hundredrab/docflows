@@ -114,7 +114,7 @@ class ProfileDetailsView(RetrieveUpdateAPIView):
 
 
 class RolesView(ListCreateAPIView):
-    """View to list and create roles for a certain committee."""
+    """DEPRECATED: View to list and create roles for a certain committee."""
     # TODO: Add object level permission allowing write access to owners only.
 
     def get_queryset(self):
