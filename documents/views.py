@@ -240,7 +240,9 @@ def document_details(request, pk):
             "owner": doc.owner.id if doc.owner else doc.owner,
             "description": doc.description,
             "viewable": doc.viewable_by(user),
-            "shareable": doc.shareable_by(user)
+            "shareable": doc.shareable_by(user),
+            "owner": doc.owner.user.username,
+            "file": doc.file.url
             }
         return JsonResponse(l, status=200, safe=False)
     else:
