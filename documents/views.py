@@ -164,7 +164,7 @@ class ViewableDocuments(ListCreateAPIView):
         return Permission.objects.filter(query)
 
     def perform_create(self, serializer):
-        typ = self.request.data['type'].strip()
+        typ = self.request.data['type'].strip().lower()
         print(self.request.data)
         pk = int(self.request.data['id'])
         document = int(self.request.data['document'])
