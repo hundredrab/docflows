@@ -9,7 +9,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username',)
+        fields = ('username','id')
 
 
 class MemberSerializer(ModelSerializer):
