@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 from datetime import timedelta
 
-# import ldap
-# from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
+import ldap
+from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    #'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'rest_framework_docs',
     'taggit',
     'django_filters',
@@ -55,22 +55,22 @@ INSTALLED_APPS = [
 
 TAGGIT_CASE_INSENSITIVE = True
 
-#LDAP AUTHENTICATION SETTINGS
+# LDAP AUTHENTICATION SETTINGS
 AUTHENTICATION_BACKENDS = [
     'django_auth_ldap.backend.LDAPBackend',
-#    'rest_framework_simplejwt.authentication.JWTAuthentication',
+    #    'rest_framework_simplejwt.authentication.JWTAuthentication',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
- AUTH_LDAP_BIND_DN = 'dc=nibmg,dc=home'
- AUTH_LDAP_BIND_PASSWORD = 'password'
+AUTH_LDAP_BIND_DN = 'dc=nibmg,dc=home'
+AUTH_LDAP_BIND_PASSWORD = 'password'
 
- AUTH_LDAP_SERVER_URI = "ldap://10.10.3.115"
- AUTH_LDAP_USER_SEARCH = LDAPSearch(
-         'dc=nibmg,dc=home',
-         ldap.SCOPE_SUBTREE,
-         '(uid=%(user)s)',
-     )
+AUTH_LDAP_SERVER_URI = "ldap://10.10.3.115"
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    'dc=nibmg,dc=home',
+    ldap.SCOPE_SUBTREE,
+    '(uid=%(user)s)',
+)
 
 
 REST_FRAMEWORK = {
