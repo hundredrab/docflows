@@ -98,8 +98,8 @@ def ListDocuments(request):
     ]
 
     """
-    # TODO: Find  a better way to do this. 
-    ### What can be done to simplify 'viewable'?
+    # TODO: Find  a better way to do this.
+    # What can be done to simplify 'viewable'?
     user = request.user.user_prof
     docs = Document.objects.all()
     l = []
@@ -204,25 +204,25 @@ class ViewableDocuments(ListCreateAPIView):
     # """Details of the doc if user has sufficient perms.
 
     # GET:
-        # {
-            # "id": 4,
-            # "file": "http://127.0.0.1:8000/media/documents/2019/01/29/dvQce79wim7zY7YcRRPrVLr557Ug43.pdf",
-            # "name": "llllll",
-            # "description": "66666666666666",
-            # "added_on": "2019-01-29T09:08:27.920592Z",
-            # "owner": 1
-        # }
+    # {
+    # "id": 4,
+    # "file": "http://127.0.0.1:8000/media/documents/2019/01/29/dvQce79wim7zY7YcRRPrVLr557Ug43.pdf",
+    # "name": "llllll",
+    # "description": "66666666666666",
+    # "added_on": "2019-01-29T09:08:27.920592Z",
+    # "owner": 1
+    # }
 # """
 
     # lookup_url_kwarg = 'pk'
 
     # def get_queryset(self):
-        # user = self.request.user.user_prof
-        # query = (Q(permission__user_permits=user) | Q(
-            # permission__comm_permits__com_roles__member__user=user) | Q(permission__role_permits__member__user=user))
-        # perms = Document.objects.filter(query)
+    # user = self.request.user.user_prof
+    # query = (Q(permission__user_permits=user) | Q(
+    # permission__comm_permits__com_roles__member__user=user) | Q(permission__role_permits__member__user=user))
+    # perms = Document.objects.filter(query)
 
-        # return perms
+    # return perms
 
     # serializer_class = FullDocumentDetailsSerializer
 
@@ -243,7 +243,7 @@ def document_details(request, pk):
             "shareable": doc.shareable_by(user),
             "owner": doc.owner.user.username,
             "file": request.META['HTTP_HOST']+doc.file.url
-            }
+        }
         return JsonResponse(l, status=200, safe=False)
     else:
         return Response(status=403)
@@ -278,3 +278,24 @@ class SearchDocuments(ListAPIView):
     search_fields = ('name', 'description', 'tags__name', 'added_on', )
     filter_fields = ('name', 'description', 'tags__name', 'added_on', 'owner')
     ordering_fields = ('added_on',)
+
+
+@api_view(['GET'])
+def search(request):
+    user_prof = request.user.user_prof
+    q = request.GET.data['search']
+    query = Q(name__icontains(q)) | Q(description__icontains(q)) | Q(
+        tags__name__icontains(q)) | Q(added_on__icontains(q))
+    docs = Documents.objects.filter(query)
+    l = []
+    for doc in docs:
+        l.append({
+            "id": doc.id,
+            "name": doc.name,
+            "added_on": doc.added_on,
+            "owner": doc.owner.id if doc.owner else doc.owner,
+            "description": doc.description,
+            "viewable": doc.viewable_by(user),
+            "shareable": doc.shareable_by(user)
+        })
+    return JsonResponse(l, status=200, safe=False)
