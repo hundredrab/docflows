@@ -57,20 +57,20 @@ TAGGIT_CASE_INSENSITIVE = True
 
 #LDAP AUTHENTICATION SETTINGS
 AUTHENTICATION_BACKENDS = [
-#    'django_auth_ldap.backend.LDAPBackend',
+    'django_auth_ldap.backend.LDAPBackend',
 #    'rest_framework_simplejwt.authentication.JWTAuthentication',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-# AUTH_LDAP_BIND_DN = 'cn=read-only-admin,dc=example,dc=com'
-# AUTH_LDAP_BIND_PASSWORD = 'password'
+ AUTH_LDAP_BIND_DN = 'dc=nibmg,dc=home'
+ AUTH_LDAP_BIND_PASSWORD = 'password'
 
-# AUTH_LDAP_SERVER_URI = "ldap://ldap.forumsys.com"
-# AUTH_LDAP_USER_SEARCH = LDAPSearch(
-#         'dc=example,dc=com',
-#         ldap.SCOPE_SUBTREE,
-#         '(uid=%(user)s)',
-#     )
+ AUTH_LDAP_SERVER_URI = "ldap://10.10.3.115"
+ AUTH_LDAP_USER_SEARCH = LDAPSearch(
+         'dc=nibmg,dc=home',
+         ldap.SCOPE_SUBTREE,
+         '(uid=%(user)s)',
+     )
 
 
 REST_FRAMEWORK = {
