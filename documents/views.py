@@ -282,11 +282,11 @@ class SearchDocuments(ListAPIView):
 
 @api_view(['GET'])
 def search(request):
-    user_prof = request.user.user_prof
-    q = request.GET.data['search']
-    query = Q(name__icontains(q)) | Q(description__icontains(q)) | Q(
-        tags__name__icontains(q)) | Q(added_on__icontains(q))
-    docs = Documents.objects.filter(query)
+    user = request.user.user_prof
+    q = request.GET['search']
+    query = Q(name__icontains=q) | Q(description__icontains=q) | Q(
+        tags__name__icontains=q) | Q(added_on__icontains=q)
+    docs = Document.objects.filter(query)
     l = []
     for doc in docs:
         l.append({
